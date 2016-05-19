@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://yck.me/"/>
-  <updated>2016-05-15T14:23:53.648Z</updated>
+  <updated>2016-05-19T07:58:10.868Z</updated>
   <id>http://yck.me/</id>
   
   <author>
@@ -13,21 +13,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title><![CDATA[SSH使用key免密码登录]]></title>
-    <link href="http://yck.me/2016/05/ssh-login-with-key/"/>
-    <id>http://yck.me/2016/05/ssh-login-with-key/</id>
-    <published>2016-05-12T13:36:01.000Z</published>
-    <updated>2016-05-15T14:23:53.648Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yck.me/tags/linux/"/>
-    
-  </entry>
   
   <entry>
     <title><![CDATA[Cookie与Session的区别]]></title>
@@ -98,7 +83,7 @@
 <p>这个博客使用的是<a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>静态博客框架。月初的时候想到在博客上放上一双眼睛，向下面那双宝石般晶莹剔透的猫眼。然而理想和现实总是相差太多。。。还想过添加一个音乐播放的小东西，但是这样的话又要考虑页面切换时的停顿。因此对于是否要做成网易云音乐那样异步加载纠结了好久。最后还是把这部分留作以后的工作了。 -_-||<br><img src="/img/Cat_eyes.jpg" alt="cat" title="cat"></p>
 <p>博客的主题是<a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank" rel="external">Apllo</a>。自己稍微做了一点修改。然后博客的评论用的<a href="https://disqus.com/" target="_blank" rel="external">DISQUS</a>。域名是暑假时申请的<a href="https://github.com/" target="_blank" rel="external">GitHub</a>的StudentPack里提供的<a href="https://www.namecheap.com/" target="_blank" rel="external">namecheap</a>的.me域名(又拖了半年。。。)。</p>
 <p>哎呀，肚子里没有什么墨水。就写道这里了。以后会尽力多写一些，也请大家无聊的时候来看看有没有更新。</p>
-<p>有问题和建议的话可以通过邮箱<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x69;&#x40;&#121;&#99;&#x6b;&#46;&#109;&#101;">&#x69;&#x40;&#121;&#99;&#x6b;&#46;&#109;&#101;</a>联系我。</p>
+<p>有问题和建议的话可以通过邮箱<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x69;&#x40;&#x79;&#99;&#107;&#x2e;&#109;&#101;">&#x69;&#x40;&#x79;&#99;&#107;&#x2e;&#109;&#101;</a>联系我。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>欢迎来到我的博客。<br>]]>
