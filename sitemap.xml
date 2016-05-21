@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yck.me/2016/05/springmvc-quartz/</loc>
+    <lastmod>2016-05-21T14:50:27.707Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://yck.me/2016/05/cookie-and-session/</loc>
     <lastmod>2016-05-19T07:58:10.868Z</lastmod>
   </url>
