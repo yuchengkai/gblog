@@ -4,19 +4,156 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Hello, 你好~ | 鱼的博客</title>
+  <title>Javascript中的正则表达式 | 鱼的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="欢迎来到我的博客。">
+  <meta name="description" content="正则表达式中各种字符的含义
+
+
+字符
+含义
+
+
+
+
+\
+转义字符
+
+
+^
+匹配字符串的开始位置
+
+
+$
+匹配字符串的结束位置
+
+
+*
+匹配前一个字符0次或者多次
+
+
++
+匹配前一个字符1次或者多次
+
+
+?
+匹配前一个字符0次或者1次
+
+
+.
+匹配除了换行符之外的任何单个字符
+
+
+(x)
+匹配‘x’并且记住匹配项
+
+
+(?:x)
+匹配’x’但是不记住匹配项
+
+
+x(?=y)
+匹配’x’仅仅当’x’后">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello, 你好~">
-<meta property="og:url" content="http://yck.me/2016/01/hello-world/index.html">
+<meta property="og:title" content="Javascript中的正则表达式">
+<meta property="og:url" content="http://yck.me/2016/05/javascript-regexp/index.html">
 <meta property="og:site_name" content="鱼的博客">
-<meta property="og:description" content="欢迎来到我的博客。">
-<meta property="og:image" content="http://yck.me/img/Cat_eyes.jpg">
-<meta property="og:updated_time" content="2016-05-15T14:25:31.177Z">
+<meta property="og:description" content="正则表达式中各种字符的含义
+
+
+字符
+含义
+
+
+
+
+\
+转义字符
+
+
+^
+匹配字符串的开始位置
+
+
+$
+匹配字符串的结束位置
+
+
+*
+匹配前一个字符0次或者多次
+
+
++
+匹配前一个字符1次或者多次
+
+
+?
+匹配前一个字符0次或者1次
+
+
+.
+匹配除了换行符之外的任何单个字符
+
+
+(x)
+匹配‘x’并且记住匹配项
+
+
+(?:x)
+匹配’x’但是不记住匹配项
+
+
+x(?=y)
+匹配’x’仅仅当’x’后">
+<meta property="og:updated_time" content="2016-05-22T14:41:09.435Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello, 你好~">
-<meta name="twitter:description" content="欢迎来到我的博客。">
+<meta name="twitter:title" content="Javascript中的正则表达式">
+<meta name="twitter:description" content="正则表达式中各种字符的含义
+
+
+字符
+含义
+
+
+
+
+\
+转义字符
+
+
+^
+匹配字符串的开始位置
+
+
+$
+匹配字符串的结束位置
+
+
+*
+匹配前一个字符0次或者多次
+
+
++
+匹配前一个字符1次或者多次
+
+
+?
+匹配前一个字符0次或者1次
+
+
+.
+匹配除了换行符之外的任何单个字符
+
+
+(x)
+匹配‘x’并且记住匹配项
+
+
+(?:x)
+匹配’x’但是不记住匹配项
+
+
+x(?=y)
+匹配’x’仅仅当’x’后">
   
     <link rel="alternative" href="/atom.xml" title="鱼的博客" type="application/atom+xml">
   
@@ -165,11 +302,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-javascript-regexp" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/01/hello-world/" class="article-date">
-  	<time datetime="2016-01-21T14:00:00.000Z" itemprop="datePublished">2016-01-21</time>
+      <a href="/2016/05/javascript-regexp/" class="article-date">
+  	<time datetime="2016-05-22T13:57:53.000Z" itemprop="datePublished">2016-05-22</time>
 </a>
     </div>
   
@@ -182,7 +319,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Hello, 你好~
+      Javascript中的正则表达式
     </h1>
   
 
@@ -190,6 +327,10 @@
       
       <div class="article-info article-info-post">
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regexp/">regexp</a></li></ul>
+	</div>
+
         
 
         <div class="clearfix"></div>
@@ -198,11 +339,157 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>欢迎来到我的博客。<br><a id="more"></a><br>从研究生入学起，我就就想试试看开个博客。然而作为一个拖延症晚期的患者，最近才真的着手开始干。。。</p>
-<p>这个博客使用的是<a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>静态博客框架。月初的时候想到在博客上放上一双眼睛，向下面那双宝石般晶莹剔透的猫眼。然而理想和现实总是相差太多。。。还想过添加一个音乐播放的小东西，但是这样的话又要考虑页面切换时的停顿。因此对于是否要做成网易云音乐那样异步加载纠结了好久。最后还是把这部分留作以后的工作了。 -_-||<br><img src="/img/Cat_eyes.jpg" alt="cat" title="cat"></p>
-<p>博客的主题是<a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank" rel="external">Apllo</a>。自己稍微做了一点修改。然后博客的评论用的<a href="https://disqus.com/" target="_blank" rel="external">DISQUS</a>。域名是暑假时申请的<a href="https://github.com/" target="_blank" rel="external">GitHub</a>的StudentPack里提供的<a href="https://www.namecheap.com/" target="_blank" rel="external">namecheap</a>的.me域名(又拖了半年。。。)。</p>
-<p>哎呀，肚子里没有什么墨水。就写道这里了。以后会尽力多写一些，也请大家无聊的时候来看看有没有更新。</p>
-<p>有问题和建议的话可以通过邮箱<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x69;&#64;&#121;&#99;&#x6b;&#x2e;&#109;&#x65;">&#x69;&#64;&#121;&#99;&#x6b;&#x2e;&#109;&#x65;</a>联系我。</p>
+        <h2 id="正则表达式中各种字符的含义">正则表达式中各种字符的含义</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\</td>
+<td>转义字符</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开始位置</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串的结束位置</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前一个字符0次或者多次</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前一个字符1次或者多次</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前一个字符0次或者1次</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除了换行符之外的任何单个字符</td>
+</tr>
+<tr>
+<td>(x)</td>
+<td>匹配‘x’并且记住匹配项</td>
+</tr>
+<tr>
+<td>(?:x)</td>
+<td>匹配’x’但是不记住匹配项</td>
+</tr>
+<tr>
+<td>x(?=y)</td>
+<td>匹配’x’仅仅当’x’后面跟着’y’</td>
+</tr>
+<tr>
+<td>x(?!y)</td>
+<td>匹配’x’仅仅当’x’后面不跟着’y’</td>
+</tr>
+<tr>
+<td>x&brvbar;y</td>
+<td>匹配‘x’或者‘y’</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>n是一个正整数，匹配了前面一个字符刚好发生了n次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>n和m都是正整数，匹配前面的字符至少n次，最多m次</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>匹配方括号的中任意字符</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>匹配任何不在方括号中的字符</td>
+</tr>
+<tr>
+<td>[\b]</td>
+<td>匹配一个退格</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个词的边界</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配一个非单词边界</td>
+</tr>
+<tr>
+<td>\cX</td>
+<td>当X是处于A到Z之间的字符的时候，匹配字符串中的一个控制符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字字符</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配一个空白字符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配一个非空白字符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个水平制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配一个垂直制表符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配一个单字字符</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配一个非单字字符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配第n个捕获的匹配</td>
+</tr>
+<tr>
+<td>\0</td>
+<td>匹配空字符</td>
+</tr>
+<tr>
+<td>\xhh</td>
+<td>匹配16进制ascii码为hh的字符</td>
+</tr>
+<tr>
+<td>\uhhhh</td>
+<td>匹配16进制unicode为hhhh的字符</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
 
       
     </div>
@@ -212,15 +499,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/05/cookie-and-session/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Cookie与Session的区别
-        
-      </div>
-    </a>
   
+    <a href="/2016/05/springmvc-quartz/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spring MVC中整合quartz的基本步骤</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -253,7 +536,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="hello-world" data-title="Hello, 你好~" data-url="http://yck.me/2016/01/hello-world/"></div>
+	<div class="ds-thread" data-thread-key="javascript-regexp" data-title="Javascript中的正则表达式" data-url="http://yck.me/2016/05/javascript-regexp/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

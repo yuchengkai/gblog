@@ -67,10 +67,10 @@
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
 						<li>菜单</li>
-						<li>標籤</li>
+						<li>标签</li>
 						
 						
-						<li>關於</li>
+						<li>关于我</li>
 						
 					</ul>
 				</div>
@@ -103,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
+						<a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/regexp/" style="font-size: 10px;">regexp</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
 					</div>
 				</section>
 				
@@ -164,6 +164,215 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-javascript-regexp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/javascript-regexp/" class="article-date">
+  	<time datetime="2016-05-22T13:57:53.000Z" itemprop="datePublished">2016-05-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/javascript-regexp/">Javascript中的正则表达式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="正则表达式中各种字符的含义">正则表达式中各种字符的含义</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\</td>
+<td>转义字符</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开始位置</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串的结束位置</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前一个字符0次或者多次</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前一个字符1次或者多次</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前一个字符0次或者1次</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除了换行符之外的任何单个字符</td>
+</tr>
+<tr>
+<td>(x)</td>
+<td>匹配‘x’并且记住匹配项</td>
+</tr>
+<tr>
+<td>(?:x)</td>
+<td>匹配’x’但是不记住匹配项</td>
+</tr>
+<tr>
+<td>x(?=y)</td>
+<td>匹配’x’仅仅当’x’后面跟着’y’</td>
+</tr>
+<tr>
+<td>x(?!y)</td>
+<td>匹配’x’仅仅当’x’后面不跟着’y’</td>
+</tr>
+<tr>
+<td>x&brvbar;y</td>
+<td>匹配‘x’或者‘y’</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>n是一个正整数，匹配了前面一个字符刚好发生了n次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>n和m都是正整数，匹配前面的字符至少n次，最多m次</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>匹配方括号的中任意字符</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>匹配任何不在方括号中的字符</td>
+</tr>
+<tr>
+<td>[\b]</td>
+<td>匹配一个退格</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个词的边界</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配一个非单词边界</td>
+</tr>
+<tr>
+<td>\cX</td>
+<td>当X是处于A到Z之间的字符的时候，匹配字符串中的一个控制符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字字符</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配一个空白字符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配一个非空白字符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个水平制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配一个垂直制表符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配一个单字字符</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配一个非单字字符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配第n个捕获的匹配</td>
+</tr>
+<tr>
+<td>\0</td>
+<td>匹配空字符</td>
+</tr>
+<tr>
+<td>\xhh</td>
+<td>匹配16进制ascii码为hh的字符</td>
+</tr>
+<tr>
+<td>\uhhhh</td>
+<td>匹配16进制unicode为hhhh的字符</td>
+</tr>
+</tbody>
+</table>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/regexp/">regexp</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/05/javascript-regexp/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-springmvc-quartz" class="article article-type-post" itemscope itemprop="blogPost">
   
