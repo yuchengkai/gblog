@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yck.me/2016/05/app-architecture/</loc>
+    <lastmod>2016-05-26T14:57:17.896Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://yck.me/2016/05/javascript-regexp/</loc>
     <lastmod>2016-05-23T15:17:24.655Z</lastmod>
   </url>
