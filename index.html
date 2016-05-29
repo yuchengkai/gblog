@@ -70,7 +70,7 @@
 						<li>Tags</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -103,7 +103,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/regexp/" style="font-size: 10px;">regexp</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
+						<a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/regexp/" style="font-size: 10px;">regexp</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
 					</div>
 				</section>
 				
@@ -165,6 +165,70 @@
 
       <div class="body-wrap">
   
+    <article id="post-nginx-load-balance" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/nginx-load-balance/" class="article-date">
+  	<time datetime="2016-05-27T14:28:11.000Z" itemprop="datePublished">2016-05-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/nginx-load-balance/">解析Nginx负载均衡</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>摘要</strong>：对于一个大型网站来说，负载均衡是永恒的话题。随着硬件技术的迅猛发展，越来越多的负载均衡硬件设备涌现出来，如F5 BIG-IP、Citrix NetScaler、Radware等等，虽然可以解决问题，但其高昂的价格却往往令人望而却步，因此负载均衡软件仍然是大部分公司的不二之选。nginx作为webserver的后起之秀，其优秀的反向代理功能和灵活的负载均衡策略受到了业界广泛的关注。</p>
+<p>本文将以工业生产为背景，从设计实现和具体应用等方面详细介绍nginx负载均衡策略。</p>
+<p><strong>关键字</strong>：nginx 负载均衡 反向代理</p>
+<h1 id="1-_前言">1. 前言</h1><p>随着互联网信息的爆炸性增长，负载均衡（load balance）已经不再是一个很陌生的话题，顾名思义，负载均衡即是将负载分摊到不同的服务单元，既保证服务的可用性，又保证响应足够快，给用户很好的体验。快速增长的访问量和数据流量催生了各式各样的负载均衡产品，很多专业的负载均衡硬件提供了很好的功能，但却价格不菲，这使得负载均衡软件大受欢迎，nginx就是其中的一个。</p>
+<p>nginx第一个公开版本发布于2004年，2011年发布了1.0版本。它的特点是稳定性高.功能强大、资源消耗低，从其目前的市场占有而言，nginx大有与apache抢市场的势头。其中不得不提到的一个特性就是其负载均衡功能，这也成了很多公司选择它的主要原因。本文将从源码的角度介绍nginx的内置负载均衡策略和扩展负载均衡策略，以实际的工业生产为案例，对比各负载均衡策略，为nginx使用者提供参考。<br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/05/nginx-load-balance/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-app-architecture" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -191,10 +255,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>原文链接： <a href="http://keeganlee.me/post/architecture/20160303">http://keeganlee.me/post/architecture/20160303</a><br>版权声明：本文刊载在《程序员》杂志2016年3期，版权归《程序员》所有，未经许可不得转载</p>
-</blockquote>
-<p>架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就是根据我的这些经历提炼出来的关于以上几个问题方面的经验总结，内容不多，旨在抛砖引玉。</p>
+        <p>架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就是根据我的这些经历提炼出来的关于以上几个问题方面的经验总结，内容不多，旨在抛砖引玉。</p>
       
     </div>
     
@@ -250,8 +311,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介">简介</h2><p>Javascript中的正则表达式是一个RegExp对象。正则表达式可以用于RegExp对象的exec和test方法，或者String对象的match、replace、search和split方法。</p>
-<h2 id="正则表达式中各种字符的含义">正则表达式中各种字符的含义</h2><table>
+        <h1 id="简介">简介</h1><p>Javascript中的正则表达式是一个RegExp对象。正则表达式可以用于RegExp对象的exec和test方法，或者String对象的match、replace、search和split方法。</p>
+<h1 id="正则表达式中各种字符的含义">正则表达式中各种字符的含义</h1><table>
 <thead>
 <tr>
 <th>字符</th>

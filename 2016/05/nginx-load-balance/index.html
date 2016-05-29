@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>解析Nginx负载均衡 | 鱼的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="摘要：对于一个大型网站来说，负载均衡是永恒的话题。随着硬件技术的迅猛发展，越来越多的负载均衡硬件设备涌现出来，如F5 BIG-IP、Citrix NetScaler、Radware等等，虽然可以解决问题，但其高昂的价格却往往令人望而却步，因此负载均衡软件仍然是大部分公司的不二之选。nginx作为webserver的后起之秀，其优秀的反向代理功能和灵活的负载均衡策略受到了业界广泛的关注。
+本文将以工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解析Nginx负载均衡">
+<meta property="og:url" content="http://yck.me/2016/05/nginx-load-balance/index.html">
+<meta property="og:site_name" content="鱼的博客">
+<meta property="og:description" content="摘要：对于一个大型网站来说，负载均衡是永恒的话题。随着硬件技术的迅猛发展，越来越多的负载均衡硬件设备涌现出来，如F5 BIG-IP、Citrix NetScaler、Radware等等，虽然可以解决问题，但其高昂的价格却往往令人望而却步，因此负载均衡软件仍然是大部分公司的不二之选。nginx作为webserver的后起之秀，其优秀的反向代理功能和灵活的负载均衡策略受到了业界广泛的关注。
+本文将以工">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/1.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/2.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/3.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/4.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/5.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/6.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/7.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/8.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/9.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/10.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/11.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/12.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/13.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/14.jpg">
+<meta property="og:image" content="http://yck.me/img/nginx-load-balance/15.jpg">
+<meta property="og:updated_time" content="2016-05-29T12:27:15.946Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解析Nginx负载均衡">
+<meta name="twitter:description" content="摘要：对于一个大型网站来说，负载均衡是永恒的话题。随着硬件技术的迅猛发展，越来越多的负载均衡硬件设备涌现出来，如F5 BIG-IP、Citrix NetScaler、Radware等等，虽然可以解决问题，但其高昂的价格却往往令人望而却步，因此负载均衡软件仍然是大部分公司的不二之选。nginx作为webserver的后起之秀，其优秀的反向代理功能和灵活的负载均衡策略受到了业界广泛的关注。
+本文将以工">
+  
+    <link rel="alternative" href="/atom.xml" title="鱼的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">YuChengkai</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yuchengkai" title="github">github</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/regexp/" style="font-size: 10px;">regexp</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">一条不务正业的鱼&lt;。)#)))≦</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">YuChengkai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">YuChengkai</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yuchengkai" title="github">github</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-nginx-load-balance" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/nginx-load-balance/" class="article-date">
+  	<time datetime="2016-05-27T14:28:11.000Z" itemprop="datePublished">2016-05-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      解析Nginx负载均衡
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>摘要</strong>：对于一个大型网站来说，负载均衡是永恒的话题。随着硬件技术的迅猛发展，越来越多的负载均衡硬件设备涌现出来，如F5 BIG-IP、Citrix NetScaler、Radware等等，虽然可以解决问题，但其高昂的价格却往往令人望而却步，因此负载均衡软件仍然是大部分公司的不二之选。nginx作为webserver的后起之秀，其优秀的反向代理功能和灵活的负载均衡策略受到了业界广泛的关注。</p>
+<p>本文将以工业生产为背景，从设计实现和具体应用等方面详细介绍nginx负载均衡策略。</p>
+<p><strong>关键字</strong>：nginx 负载均衡 反向代理</p>
+<h1 id="1-_前言">1. 前言</h1><p>随着互联网信息的爆炸性增长，负载均衡（load balance）已经不再是一个很陌生的话题，顾名思义，负载均衡即是将负载分摊到不同的服务单元，既保证服务的可用性，又保证响应足够快，给用户很好的体验。快速增长的访问量和数据流量催生了各式各样的负载均衡产品，很多专业的负载均衡硬件提供了很好的功能，但却价格不菲，这使得负载均衡软件大受欢迎，nginx就是其中的一个。</p>
+<p>nginx第一个公开版本发布于2004年，2011年发布了1.0版本。它的特点是稳定性高.功能强大、资源消耗低，从其目前的市场占有而言，nginx大有与apache抢市场的势头。其中不得不提到的一个特性就是其负载均衡功能，这也成了很多公司选择它的主要原因。本文将从源码的角度介绍nginx的内置负载均衡策略和扩展负载均衡策略，以实际的工业生产为案例，对比各负载均衡策略，为nginx使用者提供参考。<br><a id="more"></a></p>
+<h1 id="2-_源码剖析">2. 源码剖析</h1><p>nginx的负载均衡策略可以划分为两大类：内置策略和扩展策略。内置策略包含加权轮询和ip hash，在默认情况下这两种策略会编译进nginx内核，只需在nginx配置中指明参数即可。扩展策略有很多，如fair、通用hash、consistent hash等，默认不编译进nginx内核。由于在nginx版本升级中负载均衡的代码没有本质性的变化，因此下面将以nginx1.0.15稳定版为例，从源码角度分析各个策略。</p>
+<h2 id="2-1-_加权轮询（weighted_round_robin）">2.1. 加权轮询（weighted round robin）</h2><p>轮询的原理很简单，首先我们介绍一下轮询的基本流程。如下是处理一次请求的流程图：</p>
+<p><img src="/img/nginx-load-balance/1.jpg" alt="轮询"></p>
+<p>图中有两点需要注意，第一，如果可以把加权轮询算法分为先深搜索和先广搜索，那么nginx采用的是先深搜索算法，即将首先将请求都分给高权重的机器，直到该机器的权值降到了比其他机器低，才开始将请求分给下一个高权重的机器；第二，当所有后端机器都down掉时，nginx会立即将所有机器的标志位清成初始状态，以避免造成所有的机器都处在timeout的状态，从而导致整个前端被夯住。</p>
+<p>接下来看下源码。nginx源码的目录结构很清晰，加权轮询所在路径为nginx-1.0.15/src/http/ngx_http_upstream_round_robin.[c|h]，在源码的基础上，针对重要的、不易理解的地方我加了注释。首先看下ngx_http_upstream_round_robin.h中的重要声明：</p>
+<p><img src="/img/nginx-load-balance/2.jpg" alt="upstream config"></p>
+<p>从变量命名中，我们就可以大致猜出其作用。其中，current_weight和weight的区别主要是前者为权重排序的值，随着处理请求会动态的变化，后者是配置值，用于恢复初始状态。</p>
+<p>接下来看下轮询的创建过程，代码如下图所示。</p>
+<p><img src="/img/nginx-load-balance/3.jpg" alt="code"></p>
+<p>这里有个tried变量需要做些说明。tried中记录了服务器当前是否被尝试连接过。他是一个位图。如果服务器数量小于32，则只需在一个int中即可记录下所有服务器状态。如果服务器数量大于32，则需在内存池中申请内存来存储。对该位图数组的使用可参考如下代码：</p>
+<p><img src="/img/nginx-load-balance/4.jpg" alt="example"></p>
+<p>最后是实际的策略代码，逻辑很简单，代码实现也只有30行，直接上代码。</p>
+<p><img src="/img/nginx-load-balance/5.jpg" alt="code"></p>
+<h2 id="2-2-_ip_hash">2.2. ip hash</h2><p>ip hash是nginx内置的另一个负载均衡的策略，流程和轮询很类似，只是其中的算法和具体的策略有些变化，如下图所示：</p>
+<p><img src="/img/nginx-load-balance/6.jpg" alt="flow chart"></p>
+<p>ip hash算法的核心实现如下图：</p>
+<p><img src="/img/nginx-load-balance/7.jpg" alt="implementation"></p>
+<p>从代码中可以看出，hash值既与ip有关又与后端机器的数量有关。经过测试，上述算法可以连续产生1045个互异的value，这是该算法的硬限制。对此nginx使用了保护机制，当经过20次hash仍然找不到可用的机器时，算法退化成轮询。因此，从本质上说，ip hash算法是一种变相的轮询算法，如果两个ip的初始hash值恰好相同，那么来自这两个ip的请求将永远落在同一台服务器上，这为均衡性埋下了很深的隐患。</p>
+<h2 id="2-3-_fair">2.3. fair</h2><p>fair策略是扩展策略，默认不被编译进nginx内核。其原理是根据后端服务器的响应时间判断负载情况，从中选出负载最轻的机器进行分流。这种策略具有很强的自适应性，但是实际的网络环境往往不是那么简单，因此要慎用。</p>
+<p>2.4.通用hash、一致性hash</p>
+<p>这两种也是扩展策略，在具体的实现上有些差别，通用hash比较简单，可以以nginx内置的变量为key进行hash，一致性hash采用了nginx内置的一致性hash环，可以支持memcache。</p>
+<h1 id="3-_对比测试">3. 对比测试</h1><p>本测试主要为了对比各个策略的均衡性、一致性、容灾性等，从而分析出其中的差异性，并据此给出各自的适用场景。为了能够全面、客观的测试nginx的负载均衡策略，我们采用了两个测试工具、在不同场景下做测试，以此来降低环境对测试结果造成的影响。首先简单介绍测试工具、测试网络拓扑和基本的测试流程。</p>
+<h2 id="3-1-_测试工具">3.1. 测试工具</h2><h3 id="3-1-1_easyABC">3.1.1  easyABC</h3><p>easyABC是公司内部开发的性能测试工具，采用epool模型实现，简单易上手，可以模拟GET/POST请求，极限情况下可以提供上万的压力，在公司内部得到了广泛的使用。由于被测试对象为反向代理服务器，因此需要在其后端搭建桩服务器，这里用nginx作为桩webserver，提供最基本的静态文件服务。</p>
+<h3 id="3-1-2_polygraph">3.1.2  polygraph</h3><p>polygraph是一款免费的性能测试工具，以对缓存服务、代理、交换机等方面的测试见长。它有规范的配置语言PGL（Polygraph Language），为软件提供了强大的灵活性。其工作原理如下图所示：</p>
+<p><img src="/img/nginx-load-balance/8.jpg" alt="principle"></p>
+<p>polygraph提供client端和server端，将测试目标nginx放在二者之间，三者之间的网络交互均走http协议，只需配置ip+port即可。client端可以配置虚拟robot的个数以及每个robot发请求的速率，并向代理服务器发起随机的静态文件请求，server端将按照请求的url生成随机大小的静态文件做响应。这也是选用这个测试软件的一个主要原因：可以产生随机的url作为nginx各种hash策略的key。</p>
+<p>另外，polygraph还提供了日志分析工具，功能比较丰富，感兴趣的同学可以参考附录中的相关材料。</p>
+<h2 id="3-2-_测试环境">3.2. 测试环境</h2><p>本测试运行在5台物理机上，其中被测对象单独搭在一台8核机器上，另外四台4核机器分别搭建了easyABC、webserver桩和polygraph，如下图所示：</p>
+<p><img src="/img/nginx-load-balance/9.jpg" alt="test envrionment"></p>
+<h2 id="3-3-_测试方案">3.3. 测试方案</h2><p>首先介绍下关键的测试指标：</p>
+<p><strong>均衡性</strong>：是否能够将请求均匀的发送给后端<br><strong>一致性</strong>：同一个key的请求，是否能落到同一台机器<br><strong>容灾性</strong>：当部分后端机器挂掉时，是否能够正常工作</p>
+<p>以上述指标为指导，我们针对如下四个测试场景分别用easyABC和polygraph进行测试：</p>
+<p>场景1   server_<em>均正常提供服务；<br>场景2   server_4挂掉，其他正常；<br>场景3   server_3. server<em>4挂掉，其他正常；<br>场景4   server</em></em>均恢复正常服务。</p>
+<p>上述四个场景将按照时间顺序进行，每个场景将建立在上一个场景基础上，被测试对象无需做任何操作，以最大程度模拟实际情况。另外，考虑到测试工具自身的特点，在easyabc上的测试压力在17000左右，polygraph上的测试压力在4000左右。以上测试均保证被测试对象可以正常工作，且无任何notice级别以上（alert/error/warn）的日志出现，在每个场景中记录下server_*的qps用于最后的策略分析。</p>
+<h2 id="3-4-_测试结果">3.4. 测试结果</h2><p>表1和图1是轮询策略在两种测试工具下的负载情况。对比在两种测试工具下的测试结果会发现，结果完全一致，因此可以排除测试工具的影响。从图表中可以看出，轮询策略对于均衡性和容灾性都可以做到很好的满足。</p>
+<p><img src="/img/nginx-load-balance/10.jpg" alt="table"><br><img src="/img/nginx-load-balance/11.jpg" alt="chart"></p>
+<p>表2和图2是fair策略在两种测试工具下的负载情况。fair策略受环境影响非常大，在排除了测试工具的干扰之后，结果仍然有非常大的抖动。从直观上讲，这完全不满足均衡性。但是从另一个角度出发，恰恰是由于这种自适应性确保了在复杂的网络环境中能够物尽所用。因此，在应用到工业生产中之前，需要在具体的环境中做好测试工作。</p>
+<p><img src="/img/nginx-load-balance/12.jpg" alt="chart"></p>
+<p>以下图表是各种hash策略，所不同的仅仅是hash key或者是具体的算法实现，因此一起做对比。实际测试中发现，通用hash和一致性hash均存在一个问题：当某台后端的机器挂掉时，原有落到这台机器上的流量会丢失，但是在ip hash中就不存在这样的问题。正如上文中对ip hash源码的分析，当ip hash失效时，会退化为轮询策略，因此不会有丢失流量的情况。从这个层面上说，ip hash也可以看成是轮询的升级版。</p>
+<p><img src="/img/nginx-load-balance/13.jpg" alt="chart"></p>
+<p>图5为ip hash策略，ip hash是nginx内置策略，可以看做是前两种策略的特例：以来源ip为key。由于测试工具不便于模拟海量ip下的请求，因此这里截取线上实际的情况加以分析，如下图所示：</p>
+<p><img src="/img/nginx-load-balance/14.jpg" alt="chart"><br>图5 ip hash策略</p>
+<p>图中前1/3使用轮询策略，中间段使用ip hash策略，后1/3仍然是轮询策略。可以明显的看出，ip hash的均衡性存在着很大的问题。原因并不难分析，在实际的网络环境中，有大量的高校出口路由器ip、企业出口路由器ip等网络节点，这些节点带来的流量往往是普通用户的成百上千倍，而ip hash策略恰恰是按照ip来划分流量，因此造成上述后果也就自然而然了。</p>
+<h1 id="4-_总结与展望">4. 总结与展望</h1><p>通过实际的对比测试，我们对nginx各个负载均衡策略进行了验证。下面从均衡性、一致性、容灾性以及适用场景等角度对比各种策略。(点击图片查看大图)</p>
+<p><img src="/img/nginx-load-balance/15.jpg" alt="comparison"></p>
+<p>以上从源码和实际的测试数据角度分析说明了nginx负载均衡的策略，并给出了各种策略适合的应用场景。通过本文的分析不难发现，无论哪种策略都不是万金油，在具体的场景下应该选择哪种策略一定程度上依赖于使用者对这些策略的熟悉程度。希望本文的分析和测试数据能够对读者有所帮助，更希望有越来越多、越来越好的负载均衡策略产出。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/app-architecture/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">APP架构经验总结</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="nginx-load-balance" data-title="解析Nginx负载均衡" data-url="http://yck.me/2016/05/nginx-load-balance/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"potatopig"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 YuChengkai
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -6,24 +6,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>APP架构经验总结 | 鱼的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原文链接： http://keeganlee.me/post/architecture/20160303版权声明：本文刊载在《程序员》杂志2016年3期，版权归《程序员》所有，未经许可不得转载
-
-架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架">
+  <meta name="description" content="架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就">
 <meta property="og:type" content="article">
 <meta property="og:title" content="APP架构经验总结">
 <meta property="og:url" content="http://yck.me/2016/05/app-architecture/index.html">
 <meta property="og:site_name" content="鱼的博客">
-<meta property="og:description" content="原文链接： http://keeganlee.me/post/architecture/20160303版权声明：本文刊载在《程序员》杂志2016年3期，版权归《程序员》所有，未经许可不得转载
-
-架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架">
+<meta property="og:description" content="架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就">
 <meta property="og:image" content="http://yck.me/img/layers.jpg">
 <meta property="og:image" content="http://yck.me/img/layer.jpg">
-<meta property="og:updated_time" content="2016-05-26T14:57:17.896Z">
+<meta property="og:updated_time" content="2016-05-29T11:59:42.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="APP架构经验总结">
-<meta name="twitter:description" content="原文链接： http://keeganlee.me/post/architecture/20160303版权声明：本文刊载在《程序员》杂志2016年3期，版权归《程序员》所有，未经许可不得转载
-
-架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架">
+<meta name="twitter:description" content="架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就">
   
     <link rel="alternative" href="/atom.xml" title="鱼的博客" type="application/atom+xml">
   
@@ -79,7 +73,7 @@
 						<li>Tags</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -112,7 +106,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/regexp/" style="font-size: 10px;">regexp</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
+						<a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/quartz/" style="font-size: 10px;">quartz</a> <a href="/tags/regexp/" style="font-size: 10px;">regexp</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/web/" style="font-size: 20px;">web</a>
 					</div>
 				</section>
 				
@@ -205,10 +199,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>原文链接： <a href="http://keeganlee.me/post/architecture/20160303" target="_blank" rel="external">http://keeganlee.me/post/architecture/20160303</a><br>版权声明：本文刊载在《程序员》杂志2016年3期，版权归《程序员》所有，未经许可不得转载</p>
-</blockquote>
-<p>架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就是根据我的这些经历提炼出来的关于以上几个问题方面的经验总结，内容不多，旨在抛砖引玉。</p>
+        <p>架构因人而异，不同的架构师大多会有不同的看法；架构也因项目而异，不同的项目需求不同，相应的架构也会不同。然而，有些东西还是通用的，是所有架构师都需要考虑的，也是所有项目都会有的需求，比如API如何设计？架构如何分层？开发环境和生产环境如何分离？这几年，我负责研发过的App，有餐饮类的、社交类的、智能家居类的、电商类的、新闻媒体类的等等。当有了一定的经验之后，你总会有一些自己的心得体会。而以下内容就是根据我的这些经历提炼出来的关于以上几个问题方面的经验总结，内容不多，旨在抛砖引玉。</p>
 <a id="more"></a>
 <h1 id="从API开始">从API开始</h1><p>一个App，最核心的东西，其实就是数据，而数据的主要来源，就是API。我之前负责的项目，因为API的坑已经受过了不少苦，因此，之后对App项目的架构设计我都会先从API开始。</p>
 <h1 id="制定安全机制">制定安全机制</h1><p>设计API第一个需要考虑的是API的安全机制。我负责的上一个项目，因为API的安全问题，就被人攻击了两次。之后经过分析，主要存在两个漏洞：一是因为缺少对调用者进行安全验证的方式，二是因为数据传输不够安全。那么，制定API的安全机制，主要就是为了解决这两个问题：</p>
@@ -279,6 +270,9 @@
 <p>这样，其实就有两个App了。然后，源代码新建一个和main同级的目录，命名为myappBeta，然后，将图标、名称和第三方设置之类的，和main保持一样的位置、文件名、属性等，就可以替换成环境相关的了。</p>
 <p>iOS则可以通过创建多个环境的Target来实现环境分离，不同Target可以设置不同的Bundle Identify、Bundle display name、更换图标。另外，每个Target也各自有自己的一份plist文件的，环境变量和第三方设置之类的，都可以设置在相应的plist文件里。</p>
 <h1 id="写在最后">写在最后</h1><p>至此，关于App架构方面的经验总结就先讲这么多了。其中，部分内容在我以往的博客上也已经有所体现，有兴趣的读者可以前往我的博客了解并欢迎参与讨论。</p>
+<blockquote>
+<p>原文链接： <a href="http://keeganlee.me/post/architecture/20160303" target="_blank" rel="external">http://keeganlee.me/post/architecture/20160303</a><br>版权声明：本文刊载在《程序员》杂志2016年3期，版权归《程序员》所有，未经许可不得转载</p>
+</blockquote>
 
       
     </div>
@@ -287,6 +281,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/05/nginx-load-balance/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          解析Nginx负载均衡
+        
+      </div>
+    </a>
   
   
     <a href="/2016/05/javascript-regexp/" id="article-nav-older" class="article-nav-link-wrap">
